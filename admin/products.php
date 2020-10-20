@@ -277,6 +277,23 @@ to divide the form into columns -->
 </p>
 
 <p>
+<label for="color">Color</label>
+<?php
+    $sql = "SELECT * FROM colors";
+    $res = mysqli_query($conn, $sql);
+    while ($row = mysqli_fetch_assoc($res)) {
+    
+  ?>
+<input type="checkbox" value="<?php echo $row['color']; ?>" name="color[]" /> <?php echo $row['color'] ?>
+    <?php } ?>
+<!-- <input type="checkbox" value="ecommerce" name="fashion[]" /> Ecommerce
+<input type="checkbox" value="shop" name="fashion[]" /> Shop
+<input type="checkbox" value="handbag" name="handbag[]" /> Hand Bag
+<input type="checkbox" value="laptop" name="laptop[]" /> Laptop
+<input type="checkbox" value="headphone" name="headphone[]" /> Headphone -->
+</p>
+
+<p>
 
 <p>
 <label>Description</label>
