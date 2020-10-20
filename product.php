@@ -4,36 +4,41 @@ session_start();
 require 'admin/config.php';
 
 if (isset($_GET['pid'])) {
-$id = $_GET['pid'];
-$sql = "SELECT * FROM product WHERE id = '$id' ";
-$res = mysqli_query($conn, $sql);
-$data = mysqli_fetch_assoc($res);
+    if (isset($_SESSION['cartProduct'])) {
+        $cart = $_SESSION['cartProduct'];
+    } else {
+        $cart = array();
+    }
+    $id = $_GET['pid'];
+    $sql = "SELECT * FROM product WHERE `id` =  '$id' ";
+    $res = mysqli_query($conn, $sql);
+    while ($row = mysqli_fetch_assoc($res)) {
+        if ($row['id'] == $id) {
+            $pid = $row['id'];
+            $pname = $row['name'];
+            $pprice = $row['price'];
+            $pimage = $row['image'];
+      
+            $cartArray = array(
+              "pid"=>$pid,
+              "name"=>$pname,
+              "price"=>$pprice,
+              "image"=>$pimage,
+              "qty"=>1
+            );
 
-$cart = array(
-$data['id']=>array(
-"id"=>$data['id'],
-"name"=>$data['name'],
-"price"=>$data['price'],
-"image"=>$data['image'],
-"qty"=>1
-)
-);
+            $_SESSION['cartProduct'] = $cartArray;
+            array_push($cart, $_SESSION['cartProduct']);
 
-$itemQty = "";
-foreach ($cart as $key => $value) {
-$itemQty = $value['qty'];
-}
-
-if (empty($_SESSION['cartProduct'])) {
-$_SESSION['cartProduct'] = $cart;
-} else {
-if (in_array($data['id'], array_keys($_SESSION['cartProduct']))) {
-$_SESSION['cartProduct'][$key]['qty'] += $itemQty; 
-} else {
-$_SESSION['cartProduct']
-= array_merge($_SESSION['cartProduct'], $cart);
-}
-}
+            for ($i=0; $i <= count($cart)-2; $i++) { 
+                if ($cart[$i]['name']==$cartArray['name'] && $cart[$i]['price']==$cartArray['price']) {
+                    $cart[$i]['qty']=$cart[$i]['qty']+1;
+                    array_pop($cart);
+                }
+            }
+        }
+    }
+    $_SESSION['cartProduct']=$cart;
 }
 // echo count($_SESSION['cartProduct']);
 
