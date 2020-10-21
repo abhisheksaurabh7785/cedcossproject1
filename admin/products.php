@@ -83,19 +83,19 @@ Javascript is disabled or is not supported by your browser. Please <a href="http
 </tr>
 </tfoot>
 <?php
-  if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-    $sql = "DELETE FROM product WHERE id = '$id' ";
-    mysqli_query($conn, $sql);
-  }
+if (isset($_GET['id'])) {
+$id = $_GET['id'];
+$sql = "DELETE FROM product WHERE id = '$id' ";
+mysqli_query($conn, $sql);
+}
 ?>
 <tbody>
-  <?php 
-    $sql = "SELECT * FROM product";
-    $res = mysqli_query($conn, $sql);
-    while ($row = mysqli_fetch_assoc($res)) {
+<?php 
+$sql = "SELECT * FROM product";
+$res = mysqli_query($conn, $sql);
+while ($row = mysqli_fetch_assoc($res)) {
 
-  ?>
+?>
 <tr>
 <td><input type="checkbox" /></td>
 <td><?php echo $row['name'] ?></td>
@@ -103,16 +103,18 @@ Javascript is disabled or is not supported by your browser. Please <a href="http
 <td><?php echo $row['tags'] ?></td>
 <td><?php echo $row['category'] ?></td>
 <td><?php echo $row['color'] ?></td>
-<td><img src="productImage/<?php echo $row['image'] ?>" alt="" height="100" wdith="100"></td>
+<td>
+<img src="productImage/<?php echo $row['image'] ?>" alt="" height="100" wdith="100">
+</td>
 <td><?php echo $row['long_description'] ?></td>
 <td>
 <!-- Icons -->
-<a href="#" title="Edit"><img src="resources/images/icons/pencil.png" alt="Edit" /></a>
+<a href="productEdit.php?id=<?php echo $row['id']; ?>" title="Edit"><img src="resources/images/icons/pencil.png" alt="Edit" /></a>
 <a href="products.php?id=<?php echo $row['id']; ?>" title="Delete"><img src="resources/images/icons/cross.png" alt="Delete" /></a> 
-<a href="#" title="Edit Meta"><img src="resources/images/icons/hammer_screwdriver.png" alt="Edit Meta" /></a>
+<!-- <a href="#" title="Edit Meta"><img src="resources/images/icons/hammer_screwdriver.png" alt="Edit Meta" /></a> -->
 </td>
 </tr>
-    <?php } ?>
+<?php } ?>
 
 
 </tbody>
@@ -121,26 +123,26 @@ Javascript is disabled or is not supported by your browser. Please <a href="http
 
 </div> <!-- End #tab1 -->
 <?php
-  if (isset($_POST['submit'])) {
-    // echo "hiii";
-    // $name = $_POST['name'];
-    // $price = $_POST['price'];
-    // $dropdown = $_POST['dropdown'];
-    // $tags = implode(",", $_POST['fashion']);
-    // $description = $_POST['description'];
+if (isset($_POST['submit'])) {
+// echo "hiii";
+// $name = $_POST['name'];
+// $price = $_POST['price'];
+// $dropdown = $_POST['dropdown'];
+// $tags = implode(",", $_POST['fashion']);
+// $description = $_POST['description'];
 
-    // $image = $_FILES['image']['name'];
-    // $desc = $_FILES['image']['tmp_name'];
+// $image = $_FILES['image']['name'];
+// $desc = $_FILES['image']['tmp_name'];
 
-    // if (move_uploaded_file($desc, "productImage/".$image)) {
-    //   $sql = "INSERT INTO product (`name`, `price`, `image`, `long_description`, tags) VALUES ('$name', '$price', '$image', '$description', '$tags')";
-    //   // echo $sql;
-    //   // exit();
-    //   mysqli_query($conn, $sql);
-    // } else {
-    //   echo "file not uploaded";
-    // }
-  }
+// if (move_uploaded_file($desc, "productImage/".$image)) {
+//   $sql = "INSERT INTO product (`name`, `price`, `image`, `long_description`, tags) VALUES ('$name', '$price', '$image', '$description', '$tags')";
+//   // echo $sql;
+//   // exit();
+//   mysqli_query($conn, $sql);
+// } else {
+//   echo "file not uploaded";
+// }
+}
 ?>
 
 <div class="tab-content" id="tab2">
@@ -168,14 +170,14 @@ to divide the form into columns -->
 <p>
 <label>Category</label>
 <select name="dropdown" class="small-input">
-  <?php
-    $sql = "SELECT * FROM categories";
-    $res = mysqli_query($conn, $sql);
-    while ($row = mysqli_fetch_assoc($res)) {
-    
-  ?>
+<?php
+$sql = "SELECT * FROM categories";
+$res = mysqli_query($conn, $sql);
+while ($row = mysqli_fetch_assoc($res)) {
+
+?>
 <option value="<?php echo $row['name']; ?>"><?php echo $row['name']; ?></option>
-  <?php } ?>
+<?php } ?>
 <!-- <option value="women">Women</option>
 <option value="kids">Kids</option>
 <option value="electronics">Electronics</option>
@@ -185,13 +187,13 @@ to divide the form into columns -->
 <p>
 <label for="Tags">Tags</label>
 <?php
-    $sql = "SELECT * FROM tags";
-    $res = mysqli_query($conn, $sql);
-    while ($row = mysqli_fetch_assoc($res)) {
-    
-  ?>
+$sql = "SELECT * FROM tags";
+$res = mysqli_query($conn, $sql);
+while ($row = mysqli_fetch_assoc($res)) {
+
+?>
 <input type="checkbox" value="<?php echo $row['name']; ?>" name="fashion[]" /> <?php echo $row['name'] ?>
-    <?php } ?>
+<?php } ?>
 <!-- <input type="checkbox" value="ecommerce" name="fashion[]" /> Ecommerce
 <input type="checkbox" value="shop" name="fashion[]" /> Shop
 <input type="checkbox" value="handbag" name="handbag[]" /> Hand Bag
@@ -202,13 +204,13 @@ to divide the form into columns -->
 <p>
 <label for="color">Color</label>
 <?php
-    $sql = "SELECT * FROM colors";
-    $res = mysqli_query($conn, $sql);
-    while ($row = mysqli_fetch_assoc($res)) {
-    
-  ?>
+$sql = "SELECT * FROM colors";
+$res = mysqli_query($conn, $sql);
+while ($row = mysqli_fetch_assoc($res)) {
+
+?>
 <input type="checkbox" value="<?php echo $row['color']; ?>" name="color[]" /> <?php echo $row['color'] ?>
-    <?php } ?>
+<?php } ?>
 <!-- <input type="checkbox" value="ecommerce" name="fashion[]" /> Ecommerce
 <input type="checkbox" value="shop" name="fashion[]" /> Shop
 <input type="checkbox" value="handbag" name="handbag[]" /> Hand Bag
@@ -250,14 +252,16 @@ to divide the form into columns -->
 <div class="notification attention png_bg">
 <a href="#" class="close"><img src="resources/images/icons/cross_grey_small.png" title="Close this notification" alt="close" /></a>
 <div>
-Attention notification. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vulputate, sapien quis fermentum luctus, libero. 
+Attention notification. Lorem ipsum dolor sit amet, 
+consectetur adipiscing elit. Proin vulputate, sapien quis fermentum luctus, libero. 
 </div>
 </div>
 
 <div class="notification information png_bg">
 <a href="#" class="close"><img src="resources/images/icons/cross_grey_small.png" title="Close this notification" alt="close" /></a>
 <div>
-Information notification. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vulputate, sapien quis fermentum luctus, libero.
+Information notification.
+ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vulputate, sapien quis fermentum luctus, libero.
 </div>
 </div>
 
